@@ -1,1 +1,1 @@
-#Initial commit
+#Golden skills challenges
