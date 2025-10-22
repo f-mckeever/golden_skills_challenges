@@ -93,5 +93,20 @@ class Diary():
     #params -> list of diary entries: List
     #returns -> none
     #sides -> creates new Contact for each phone number found in diary entries, and appends them to self.contact_list
-    def update_contacts(self, entries):
-        pass
+    def update_contacts(self):
+        
+        #loop over each entry
+        for entry in self.entry_list:
+            #loop over words in entry
+                
+
+                for word in entry.contents.split(" "):
+                    
+                #if word matches structure of +44 then 10 numbers then that's a number
+                    if word[0:3] == "+44" and len(word) == 13 and word[1:].isnumeric():
+                    #capture the word at the index before as the name
+                        number = word
+                        name = entry.contents.split(" ")[entry.contents.split(" ").index(word) - 1]
+                        #create new Contact instance and append it to the ContactList
+                        contact = Contact(name, number)
+                        self.contact_list.add(contact)

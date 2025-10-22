@@ -147,3 +147,36 @@ def test_best_entry_invalid_parameters():
         diary.best_entry(wpm, minutes)
     error_message = str(e.value)
     assert error_message == "Wpm and minutes must be an integer."
+
+"""
+When UK style phone numbers appear in any diary entry
+#update_contacts    will add those numbers along with
+                    the word (presumed name) before
+                    to the contacts list
+"""
+
+def test_diary_update_contacts_adds_any_new_contacts_to_list():
+    diary = Diary()
+    de1 = DiaryEntry("Title", "must call John +447492758877")
+    de2 = DiaryEntry("Title", "Aruba, Bahama, come on pretty mama")
+    de3 = DiaryEntry("Title", "Vet +447264334710")
+
+    diary.add_entry(de1)
+    diary.add_entry(de2)
+    diary.add_entry(de3)
+
+    with pytest.raises(Exception) as e:
+
+        diary.contact_list.get_contact_list()
+
+    err_msg = str(e.value)
+    assert err_msg == "Contact list is currently empty."
+
+    diary.update_contacts()
+
+    assert diary.contact_list.contact_list[0].name == "John"
+    assert diary.contact_list.contact_list[0].number == "+447492758877"
+
+    assert diary.contact_list.contact_list[1].name == "Vet"
+    assert diary.contact_list.contact_list[1].number == "+447264334710"
+    
